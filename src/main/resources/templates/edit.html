@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Изменить контрагента</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <h1>Справочник контрагентов</h1>
+    <hr>
+    <h2>Обновление контрагента</h2>
+    <form th:method="POST" th:action="@{/counterparties}" th:object="${counterparty}">
+        <input type="hidden" th:field="*{id}" />
+
+        <label for="name">Наименование</label>
+        <input type="text" th:field="*{name}" id="name" class="form-control mb-4 col-4"/>
+        <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}" >Name error</div>
+
+        <label for="inn">ИНН</label>
+        <input type="text" th:field="*{inn}" id="inn" class="form-control mb-4 col-4"/>
+        <div style="color:red" th:if="${#fields.hasErrors('inn')}" th:errors="*{inn}" >INN error</div>
+
+        <label for="kpp">КПП</label>
+        <input type="text" th:field="*{kpp}" id="kpp" class="form-control mb-4 col-4"/>
+        <div style="color:red" th:if="${#fields.hasErrors('kpp')}" th:errors="*{kpp}" >KPP error</div>
+
+        <label for="bic">БИК</label>
+        <input type="text" th:field="*{bic}" id="bic" class="form-control mb-4 col-4"/>
+        <div style="color:red" th:if="${#fields.hasErrors('bic')}" th:errors="*{bic}" >BIC error</div>
+
+        <label for="accountNumber">Номер счета</label>
+        <input type="text" th:field="*{accountNumber}" id="accountNumber" class="form-control mb-4 col-4"/>
+        <div style="color:red" th:if="${#fields.hasErrors('accountNumber')}" th:errors="*{accountNumber}" >AccountNumber error</div>
+
+        <button type="submit" class="btn btn-info col-2">Обновить</button>
+    </form>
+</div>
+</body>
+</html>

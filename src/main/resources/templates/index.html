@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Справочник контрагентов</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container my-2">
+    <h1>Справочник контрагентов</h1>
+    <a th:href="@{/counterparties/new}" class="btn btn-primary btn-sm mb-3">Добавить контрагента</a>
+    <br/><br/>
+    <form th:action="@{/counterparties}" method="get">
+        <input type="text" name="name" placeholder="Наименование"/>
+        или
+        <input type="text" name="bic" placeholder="БИК"/>
+        <input type="text" name="accountNumber" placeholder="Номер счета"/>
+        <input type="submit" value="Найти" class="btn btn-primary btn-sm mb-1"/>
+    </form>
+    <br/>
+
+    <table border="1" class="table table-striped table-responsive-md">
+        <thead>
+        <tr>
+            <th>Наименование</th>
+            <th>ИНН</th>
+            <th>КПП</th>
+            <th>БИК</th>
+            <th>Номер счета</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="counterparty : ${counterparties}">
+            <td th:text="${counterparty.getName()}">name</td>
+            <td th:text="${counterparty.getInn()}">inn</td>
+            <td th:text="${counterparty.getKpp()}">kpp</td>
+            <td th:text="${counterparty.getBic()}">bic</td>
+            <td th:text="${counterparty.getAccountNumber()}">accountNumber</td>
+
+            <form th:method="DELETE" th:action="@{/counterparties/{id}(id=${counterparty.getId})}">
+                <td class="text-center">
+                    <a th:href="@{/counterparties/{id}/edit(id=${counterparty.getId})}"
+                       class="btn btn-primary">Изменить</a>
+                    <input type="submit" class="btn btn-danger" value="Удалить">
+                </td>
+            </form>
+        </tr>
+        </tbody>
+
+    </table>
+
+    <div th:if="${totalPages > 1}">
+        <div class="row col-sm-50">
+            <div class="col-sm-2">Всего записей: [[${totalItems}]]</div>
+            <div class="col-sm-10">
+                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+						<a th:if="${currentPage != i}"
+                           th:href="@{'/counterparties/page/' + ${i}}">[[${i}]]</a>
+						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
+                </span>
+            </div>
+            <div class="col-sm-1">
+                <a th:if="${currentPage < totalPages}"
+                   th:href="@{'/counterparties/page/' + ${currentPage + 1}}">Следующая</a>
+                <span th:unless="${currentPage < totalPages}">Следующая</span>
+            </div>
+            <div class="col-sm-1">
+                <a th:if="${currentPage < totalPages}"
+                   th:href="@{'/counterparties/page/' + ${totalPages}}">Последняя</a>
+                <span th:unless="${currentPage < totalPages}">Последняя</span>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
