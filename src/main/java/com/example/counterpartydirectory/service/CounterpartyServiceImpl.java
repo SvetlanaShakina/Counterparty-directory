@@ -17,27 +17,33 @@ public class CounterpartyServiceImpl implements CounterpartyService {
     @Autowired
     private CounterpartyRepository repository;
 
+    @Override
     public Counterparty getById(int id) {
         return repository.getById(id);
     }
 
+    @Override
     public void save(Counterparty counterparty) {
         repository.save(counterparty);
     }
 
+    @Override
     public void delete(int id) {
         repository.deleteById(id);
     }
 
+    @Override
     public Page<Counterparty> findPaginated(int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
         return repository.findAll(pageable);
     }
 
+    @Override
     public List<Counterparty> getByName(String name) {
         return repository.getByName(name);
     }
 
+    @Override
     public Counterparty getByBicAndAccountNumber(String bic, String accountNumber) {
         return repository.getByBicAndAccountNumber(bic, accountNumber);
     }
